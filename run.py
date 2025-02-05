@@ -3,16 +3,23 @@ import pandas as pd
 import xml.etree.ElementTree as ET
 import sys
 import os
+import argparse
 from datetime import datetime
 from config.rss_feeds import rss_feeds
 from requests.exceptions import SSLError, RequestException
 from openpyxl import load_workbook
 from openpyxl.styles import Alignment
+import json
 
 # Define headers to mimic a request from a web browser
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
 }
+
+def save_rss_feeds():
+    with open('config/rss_feeds.py', 'w') as f:
+        f.write('rss_feeds = ')
+        json.dump(rss_feeds, f, indent=4)
 
 # Function to clean up text by removing CDATA tags and trimming whitespace
 def clean_text(text):
@@ -107,9 +114,38 @@ def fetch_and_write_rss(categories):
         print(f"RSS feed data written to {csv_file}")
         print(f"RSS feed data written to {excel_file}")
 
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python run.py <category1> <category2> ...")
+def add_category(category):
+    if category in rss_feeds:
+        print(f"Category '{category}' already exists.")
     else:
-        categories = sys.argv[1:]
-        fetch_and_write_rss(categories)
+        rss_feeds[category] = []
+        save_rss_feeds()
+        print(f"Category '{category}' added.")
+
+def add_feed(category, url, source):
+    if category not in rss_feeds:
+        print(f"Category '{category}' not found.")
+    else:
+        rss_feeds[category].append({"url": url, "source": source})
+        save_rss_feeds()
+        print(f"Feed added to category '{category}'.")
+
+def main():
+    parser = argparse.ArgumentParser(description="RSS Feed Aggregator")
+    parser.add_argument("categories", nargs="*", help="Categories to fetch RSS feeds for")
+    parser.add_argument("--add-category", help="Add a new category")
+    parser.add_argument("--add-feed", nargs=3, metavar=("CATEGORY", "URL", "SOURCE"), help="Add a new feed to an existing category")
+
+    args = parser.parse_args()
+
+    if args.add_category:
+        add_category(args.add_category)
+    elif args.add_feed:
+        add_feed(*args.add_feed)
+    elif args.categories:
+        fetch_and_write_rss(args.categories)
+    else:
+        parser.print_help()
+
+if __name__ == "__main__":
+    main()
