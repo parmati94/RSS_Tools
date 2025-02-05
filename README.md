@@ -45,11 +45,11 @@ The available categories are defined in the rss_feeds.py file. You can add or mo
 
 This can also be done using arguments:
 
-    ```
-    python run.py --add-category <category>
-    ```
+```
+python run.py --add-category <category>
+```
 
-    ```
-    python run.py --add-feed <category> <url> <source>
-    ```
+```
+python run.py --add-feed <category> <url> <source>
+```
 
