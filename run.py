@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 import sys
 import os
 from datetime import datetime
-from rss_feeds import rss_feeds
+from config.rss_feeds import rss_feeds
 from requests.exceptions import SSLError, RequestException
 from openpyxl import load_workbook
 from openpyxl.styles import Alignment

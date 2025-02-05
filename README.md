@@ -25,7 +25,7 @@ This project fetches RSS feeds from various sources, processes the data, and out
     pip install -r requirements.txt
     ```
 
-### Usage
+## Usage
 
 To run the script, use the following command:
 
@@ -33,20 +33,21 @@ To run the script, use the following command:
 python run.py <category1> <category2> ...
 ```
 
-## Example:
+### Example
 
 ```
 python run.py sports news
 ```
 
-## Categories: 
+### Categories
 
 The available categories are defined in the rss_feeds.py file. You can add or modify categories and their corresponding RSS feed URLs in this file.
 
-### Project Structure
+## Project Structure
 
 rss_feed/
+├── config/
+│   └── rss_feeds.py
 ├── run.py
-├── rss_feeds.py
 ├── requirements.txt
 └── README.md
