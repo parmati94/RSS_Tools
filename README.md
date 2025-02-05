@@ -42,12 +42,3 @@ python run.py sports news
 ### Categories
 
 The available categories are defined in the rss_feeds.py file. You can add or modify categories and their corresponding RSS feed URLs in this file.
-
-## Project Structure
-
-rss_feed/
-├── config/
-│   └── rss_feeds.py
-├── run.py
-├── requirements.txt
-└── README.md
