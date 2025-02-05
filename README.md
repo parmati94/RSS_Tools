@@ -15,7 +15,7 @@ This project fetches RSS feeds from various sources, processes the data, and out
 
    ```
    sh
-   git clone https://github.com/yourusername/rss_feed.git
+   git clone https://github.com/parmati94/RSS_Tools.git
    cd rss_feed
    ```
 
