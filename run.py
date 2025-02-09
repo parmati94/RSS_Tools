@@ -31,9 +31,12 @@ def clean_text(text):
 def get_element_text(element, default="N/A"):
     return element.text.strip() if element is not None and element.text is not None else default
 
-def fetch_and_write_rss(categories):
-    # Create a folder named by the current date
-    folder_name = datetime.now().strftime("%Y-%m-%d")
+def fetch_and_write_rss(categories, output_dir):
+    # Assume the output directory is an absolute path
+    output_dir = os.path.abspath(output_dir)
+    
+    # Create a folder named by the current date inside the specified output directory
+    folder_name = os.path.join(output_dir, datetime.now().strftime("%Y-%m-%d"))
     os.makedirs(folder_name, exist_ok=True)
 
     for category in categories:
@@ -135,6 +138,7 @@ def main():
     parser.add_argument("categories", nargs="*", help="Categories to fetch RSS feeds for")
     parser.add_argument("--add-category", help="Add a new category")
     parser.add_argument("--add-feed", nargs=3, metavar=("CATEGORY", "URL", "SOURCE"), help="Add a new feed to an existing category")
+    parser.add_argument("--output-dir", default=".", help="Absolute path to the directory to save the output files")
 
     args = parser.parse_args()
 
@@ -143,7 +147,7 @@ def main():
     elif args.add_feed:
         add_feed(*args.add_feed)
     elif args.categories:
-        fetch_and_write_rss(args.categories)
+        fetch_and_write_rss(args.categories, args.output_dir)
     else:
         parser.print_help()
 
